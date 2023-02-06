@@ -1,14 +1,14 @@
 ###
 ### A complete description of a Prefect Deployment for flow 'etl-parent-flow'
 ###
-name: ETL for question 4
+name: etl-question-4
 description: null
 version: e379ba00bc3c6e79a0b08585b84319c3
 # The work queue that will handle this deployment's runs
 work_queue_name: default
 work_pool_name: null
 tags: []
-parameters: {}
+parameters: {"month" : [11], "year": 2020, "color": "green"}
 schedule: null
 is_schedule_active: null
 infra_overrides: {}
@@ -54,4 +54,4 @@ parameter_openapi_schema:
       type: string
   required: null
   definitions: null
-timestamp: '2023-02-06T13:31:32.424399+00:00'
+timestamp: '2023-02-06T13:56:53.563533+00:00'
