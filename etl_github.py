@@ -4,6 +4,16 @@ from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
 from prefect.tasks import task_input_hash
 from datetime import timedelta
+from prefect.filesystems import GitHub
+import git
+
+@task(retries=3)
+def getRepo():
+    github_block = GitHub.load("github-block")
+    #git_url = f"https://github.com/julisa-dk/ETL-gcp.git"
+    git.Git("./").clone("https://github.com/julisa-dk/ETL-gcp.git")
+    print('Cloned!')
+    return
 
 @task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
 def fetch(dataset_url: str) -> pd.DataFrame:
@@ -48,6 +58,7 @@ def etl_web_to_gcs(year: int, month: int, color: str) -> None:
     df_clean = clean(df)
     path = write_local(df_clean, color, dataset_file)
     write_gcs(path)
+    getRepo()
 
 @flow()
 def etl_parent_flow(
